@@ -1,10 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 
 #define matris_size 50
 
@@ -15,12 +14,11 @@
 #include "button.c"
 #include "file_bloc_table.c"
 #include "bloc_render.c"
-int main()
+int main(int argc,char* argv[])
 {
 //start
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
-	TTF_Init();
 //web creation
 	printf("witch file do you want to open : ");
 	char file_name[30];
@@ -46,7 +44,7 @@ int main()
 		search_bloc_table(file_name,bloc_table,0);
 	}
 //window creation
-	SDL_Window* window=SDL_CreateWindow("map creator",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	SDL_Window* window=SDL_CreateWindow("map creator",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,500,500,SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if(window==NULL)
 	{
 		printf("ERROR : can not create window");
@@ -81,11 +79,11 @@ int main()
     };
 //texture creation
 	//bloc texture
-	SDL_Texture* texture[get_file_lenght("assets/file.txt")];
+	SDL_Texture* texture[get_file_lenght("assets/bloc.sgf")];
 	char string[50];
-	for(int i=0;i<get_file_lenght("assets/file.txt");i++)
+	for(int i=0;i<get_file_lenght("assets/bloc.sgf");i++)
 	{
-		search_string("assets/file.txt",string,i);
+		search_string("assets/bloc.sgf",string,i);
 		texture[i]=create_texture(renderer,string);
 	}
 	/*
@@ -96,7 +94,7 @@ int main()
 	*/
 
 	//button texture
-	SDL_Texture* button_texture=create_texture(renderer,"assets/button.png");
+	//SDL_Texture* button_texture=create_texture(renderer,"assets/button.png");
 	
 //event var
 	SDL_Event event;
@@ -238,6 +236,7 @@ int main()
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	IMG_Quit();
 	SDL_Quit();
 	return 0;
 }
